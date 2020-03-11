@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from datetime import datetime
+
 
 def getWebsiteAndReturnContent(URL):
     page = requests.get(URL)
@@ -55,11 +57,14 @@ articles = getArticles(welcomePage)
 
 articlesURL = getURLsFromArticles(articles)
 
+dt_string = datetime.now().strftime("%H%M%S_%d%m%Y")
+print("date and time =", dt_string)
+
 data = {}
 data['articles'] = []
 for articleURL in articlesURL:
     if articleURL is not None:
         data['articles'].append(getDictDataFromArticle(getBaseArticle(URL + articleURL)))
 
-with open('klix.json', 'w') as outfile:
+with open('klix_'+dt_string+'.json', 'w') as outfile:
     json.dump(data, outfile)

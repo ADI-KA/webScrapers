@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from datetime import datetime
+
 
 def getWebsiteAndReturnContent(URL):
     page = requests.get(URL)
@@ -55,11 +57,13 @@ articles = getArticles(welcomePage)
 
 articlesURL = getURLsFromArticles(articles)
 
+dt_string = datetime.now().strftime("%H%M%S_%d%m%Y")
+
 data = {}
 data['articles'] = []
 # print(getDictDataFromArticle(getBaseArticle(articlesURL[0])))
 for articleURL in articlesURL:
     data['articles'].append(getDictDataFromArticle(getBaseArticle(articleURL)))
 
-with open('bljesak.json', 'w') as outfile:
+with open('bljesak_'+dt_string+'.json', 'w') as outfile:
     json.dump(data, outfile)
