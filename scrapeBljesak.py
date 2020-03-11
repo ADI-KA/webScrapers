@@ -22,16 +22,26 @@ def getBaseArticle(articlesURL):
     return getWebsiteAndReturnContent(articlesURL).find("article",{"class": "b-article-detail"})
 
 def getDictDataFromArticle(baseArticle):
-    dictData = {
-        "title": baseArticle.find("h1", {"class": "title"}).get_text(),
-        "info": baseArticle.find("div", {"class": "info"}).get_text(),
-        "intro": baseArticle.find("div", {"class": "intro"}).get_text(),
-        "subtitle":baseArticle.find("h2", {"class": "subtitle"}).get_text(),
+    dictData = {       
     }
 
-    if baseArticle.find("div", {"id": "__xclaimwords_wrapper"}) is not None:
-        dictData['article'] = baseArticle.find("div", {"id": "__xclaimwords_wrapper"}).get_text()
-        
+    try:
+        if baseArticle.find("h2", {"class": "subtitle"}) is not None:
+            dictData['subtitle'] = baseArticle.find("h2", {"class": "subtitle"}).get_text()
+
+        if baseArticle.find("div", {"class": "intro"}) is not None:
+            dictData['intro'] = baseArticle.find("div", {"class": "intro"}).get_text()
+
+        if  baseArticle.find("div", {"class": "info"}) is not None:
+            dictData['info'] = baseArticle.find("div", {"class": "info"}).get_text()
+
+        if baseArticle.find("h1", {"class": "title"}) is not None:
+            dictData['title'] = baseArticle.find("h1", {"class": "title"}).get_text()
+
+        if baseArticle.find("div", {"id": "__xclaimwords_wrapper"}) is not None:
+            dictData['article'] = baseArticle.find("div", {"id": "__xclaimwords_wrapper"}).get_text()
+    except:
+        print(baseArticle)    
     return dictData
 
 
